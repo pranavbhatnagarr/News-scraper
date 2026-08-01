@@ -1,0 +1,60 @@
+name: scrape
+
+# Runs the scraper on a schedule and publishes a Markdown digest as an artifact.
+#
+# Caveat worth knowing before relying on this: GitHub's scheduled runners are
+# best-effort and are regularly delayed by 10+ minutes under load, so a "every
+# 15 minutes" cron here is really "roughly every 15-30 minutes". The database is
+# carried between runs via actions/cache, which is evicted after 7 days of
+# disuse and capped at 10 GB per repo. For a genuinely reliable 15-minute
+# cadence, run `python -m newsau watch` on a small always-on box instead.
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  # Never let a slow run overlap the next scheduled one.
+  group: scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # Restore the previous run's database. restore-keys lets us pick up the
+      # most recent cache even though the primary key changes every run.
+      - name: Restore database
+        uses: actions/cache@v4
+        with:
+          path: news.db
+          key: news-db-${{ github.run_id }}
+          restore-keys: news-db-
+
+      - name: Scrape and enrich
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
+        run: python -m newsau run
+
+      - name: Build digest
+        run: |
+          python -m newsau stats
+          python -m newsau digest --since 24h --out digest.md
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: digest
+          path: digest.md
+          retention-days: 14

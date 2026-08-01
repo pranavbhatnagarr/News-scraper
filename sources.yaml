@@ -1,0 +1,151 @@
+# Australian news sources.
+#
+# Every feed in this file was verified to return parseable RSS/Atom items.
+# Re-check any time with:  python -m newsau verify-feeds
+#
+# topic_hint is where the feed *lives* on the publisher's site. It is a prior,
+# not the answer — the classifier decides the real topic per article, because
+# a Guardian "technology" story is often really business or politics.
+#
+# Deliberately excluded (checked, return HTML not RSS as of the last audit):
+#   news.com.au /content-feeds/*, 9news.com.au/rss,
+#   foxsports.com.au /content-feeds/*, gizmodo.com.au/feed
+#   michaelwest.com.au/feed (403s bots)
+
+defaults:
+  max_items_per_poll: 40
+
+sources:
+  # ---------- National / general ----------
+  - name: abc-top-stories
+    publisher: ABC News
+    url: https://www.abc.net.au/news/feed/45910/rss.xml
+    topic_hint: general
+
+  - name: abc-just-in
+    publisher: ABC News
+    url: https://www.abc.net.au/news/feed/51120/rss.xml
+    topic_hint: general
+
+  - name: guardian-au
+    publisher: The Guardian Australia
+    url: https://www.theguardian.com/au/rss
+    topic_hint: general
+
+  - name: guardian-australia-news
+    publisher: The Guardian Australia
+    url: https://www.theguardian.com/australia-news/rss
+    topic_hint: politics
+
+  - name: smh
+    publisher: Sydney Morning Herald
+    url: https://www.smh.com.au/rss/feed.xml
+    topic_hint: general
+
+  - name: the-age
+    publisher: The Age
+    url: https://www.theage.com.au/rss/feed.xml
+    topic_hint: general
+
+  - name: brisbane-times
+    publisher: Brisbane Times
+    url: https://www.brisbanetimes.com.au/rss/feed.xml
+    topic_hint: general
+
+  - name: watoday
+    publisher: WAtoday
+    url: https://www.watoday.com.au/rss/feed.xml
+    topic_hint: general
+
+  - name: canberra-times
+    publisher: Canberra Times
+    url: https://www.canberratimes.com.au/rss.xml
+    topic_hint: general
+
+  - name: sbs-news
+    publisher: SBS News
+    url: https://www.sbs.com.au/news/feed
+    topic_hint: general
+
+  - name: the-conversation-au
+    publisher: The Conversation AU
+    url: https://theconversation.com/au/articles.atom
+    topic_hint: general
+
+  - name: crikey
+    publisher: Crikey
+    url: https://www.crikey.com.au/feed/
+    topic_hint: politics
+
+  # ---------- AI / technology ----------
+  - name: guardian-au-technology
+    publisher: The Guardian Australia
+    url: https://www.theguardian.com/au/technology/rss
+    topic_hint: ai-tech
+
+  - name: smh-technology
+    publisher: Sydney Morning Herald
+    url: https://www.smh.com.au/rss/technology.xml
+    topic_hint: ai-tech
+
+  - name: itnews
+    publisher: iTnews
+    url: https://www.itnews.com.au/RSS/rss.ashx
+    topic_hint: ai-tech
+
+  - name: innovationaus
+    publisher: InnovationAus
+    url: https://www.innovationaus.com/feed/
+    topic_hint: ai-tech
+
+  - name: arn
+    publisher: ARN (Australian Reseller News)
+    url: https://www.arnnet.com.au/feed/
+    topic_hint: ai-tech
+
+  - name: startup-daily
+    publisher: Startup Daily
+    url: https://www.startupdaily.net/feed/
+    topic_hint: ai-tech
+
+  - name: the-conversation-au-technology
+    publisher: The Conversation AU
+    url: https://theconversation.com/au/technology/articles.atom
+    topic_hint: ai-tech
+
+  # ---------- Sport ----------
+  - name: abc-grandstand-sport
+    publisher: ABC News
+    url: https://www.abc.net.au/news/feed/2942460/rss.xml
+    topic_hint: sports
+
+  - name: guardian-au-sport
+    publisher: The Guardian Australia
+    url: https://www.theguardian.com/au/sport/rss
+    topic_hint: sports
+
+  - name: smh-sport
+    publisher: Sydney Morning Herald
+    url: https://www.smh.com.au/rss/sport.xml
+    topic_hint: sports
+
+  # ---------- Business / finance ----------
+  - name: afr
+    publisher: Australian Financial Review
+    url: https://www.afr.com/rss/feed.xml
+    topic_hint: business
+
+  - name: guardian-au-business
+    publisher: The Guardian Australia
+    url: https://www.theguardian.com/au/business/rss
+    topic_hint: business
+
+  - name: smh-business
+    publisher: Sydney Morning Herald
+    url: https://www.smh.com.au/rss/business.xml
+    topic_hint: business
+
+  - name: the-conversation-au-business
+    publisher: The Conversation AU
+    url: https://theconversation.com/au/business/articles.atom
+    topic_hint: business
